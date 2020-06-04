@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'front/css/common.css' %}">
+    {% block header %}
+
+    {% endblock %}
+</head>
+
+<body>
+<!-- 导航 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><img src="{% static 'front/img/logo.png' %}" alt="" height="60px"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="nav navbar-nav nav-tabs" data-in="fadeInLeft" data-out="fadeInOut" id="aa">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:index' %}">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/404.html">404</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:tags' %}">标签</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:category' %}">分类</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:archive' %}">归档</a>
+                </li>
+                <!-- 秘密花园是登录后的状态
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        秘密花园
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="profile.html">个人信息</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">后台</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">退出</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#register" href=""><span
+                            class="glyphicon glyphicon-user"></span> 注册</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#login" href=""><span
+                            class="glyphicon glyphicon-log-in"></span> 登录</a>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- 内容 sticky-sidebar-->
+<div class="container clearfix">
+    <div class="row">
+
+        <!-- item -->
+        {% block main %}
+
+        {% endblock %}
+        <!-- 侧边 -->
+        <div class="as col-md-4">
+            <div class="card mb-2">
+                <div class="card-header">
+                    最新发布
+                </div>
+                <div class="list-group list-group-flush">
+                    {% for post in new_posts %}
+                        <div class="list-group-item hvr-underline-reveal">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 title"><a
+                                        href="{% url 'front:detail' pid=post.pid %}">{{ post.ptitle }}</a>
+                                </h5>
+                            </div>
+                            <p class="mb-1 desc">{{ post.pdesc }}</p>
+                            <small class="text-muted">{{ post.update_time }}</small>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <div class="card mb-2">
+                <div class="card-header">
+                    分类
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item hvr-underline-from-center">
+                        <a href="{% url 'front:category' %}" class=" d-flex justify-content-between align-items-center">
+                            更多
+                        </a>
+                    </li>
+                    {% for category in categories %}
+                        <li class="list-group-item hvr-underline-from-center">
+                            <a href="{% url 'front:category' %}?cid={{ category.id }}"
+                               class=" d-flex justify-content-between align-items-center">
+                                {{ category.name }}<span
+                                    class="badge badge-primary badge-pill">{{ category.pnums }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-header">
+                    标签
+                </div>
+                <ul class="list-group list-group-flush tags-group">
+                    <li class="list-group-item d-flex text-center hvr-wobble-to-top-right">
+                        <a href="{% url 'front:tags' %}">更多</a>
+                    </li>
+                    {% for tag in tags %}
+                        <li class="list-group-item d-flex text-center hvr-wobble-to-top-right">
+                            <a href="{% url 'front:tags' %}?tid={{ tag.id }}">{{ tag.name }}<span
+                                    class=" badge badge-primary badge-pill">{{ tag.pnums }}</span></a>
+                        </li>
+                    {% endfor %}
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 底部 -->
+<div class="footer">
+    <div class="alert alert-dark text-center " role="alert" style="margin-bottom: 0;">
+        <p>CopyRight &copy; 2018 ~ 2020 月黑风高夜的个人网站</p>
+        <p>Powered by Django & Bootstrap 备案xxxxxxx</p>
+    </div>
+</div>
+
+
+<!-- 注册窗口 -->
+<div id="register" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center">注册</h3>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">用户名</label>
+                    <input class="form-control" type="text" placeholder="6-15位字母或数字">
+                </div>
+                <div class="form-group">
+                    <label for="">密码</label>
+                    <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                </div>
+                <div class="form-group">
+                    <label for="">再次输入密码</label>
+                    <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                </div>
+                <div class="form-group">
+                    <label for="">邮箱</label>
+                    <input class="form-control" type="email" placeholder="例如:123@123.com">
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">注册</button>
+                    <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                </div>
+                <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 登录窗口 -->
+<div id="login" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center">登录</h3>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">用户名</label>
+                    <input class="form-control" type="text" placeholder="请输入您的用户名">
+                </div>
+                <div class="form-group">
+                    <label for="">密码</label>
+                    <input class="form-control" type="password" placeholder="请输入您的密码">
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">登录</button>
+                    <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                </div>
+                <a href="" data-toggle="modal" data-dismiss="modal" data-target="#register">还没有账号？点我注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search -->
+<div class="modal fade" id="searchModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">文章搜索</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "front:search" %}" class="form-group">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="s" class="form-control" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="toolbar">
+    <a class="back-to-top"><i class="fa fa-angle-up fa-2x"></i></a>
+    <a data-toggle="modal" data-target="#searchModalCenter"><i class="fa fa-search fa-2x"></i></a>
+    <a class="back-to-home" href="{% url 'front:index' %}"><i class="fa fa-home fa-2x"></i></a>
+</div>
+</body>
+<script src="{% static 'front/js/common.js' %}"></script>
+
+<script>
+    /*// 修改，改变导航*/
+    $(function () {
+        var pathname = window.location.pathname
+        $('.nav-link[href="' + pathname + '"]').tab('show')
+    })
+</script>
+{% block footer %}
+
+{% endblock %}
+
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.2</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="{% static 'backend/css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'backend/css/xadmin.css' %}">
+    <script src="{% static 'backend/lib/layui/layui.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'backend/js/xadmin.js' %}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <!-- 欢迎  -->
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <blockquote class="layui-elem-quote">欢迎管理员：
+                        <span class="x-red">{{ request.user }}</span>！当前时间: <span class="nowtime"></span>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <!-- 数据统计  -->
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">数据统计</div>
+                <div class="layui-card-body ">
+                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                        <li class="layui-col-md1 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>文章数</h3>
+                                <p>
+                                    <cite>{{ post_nums }}</cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md1 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>会员数</h3>
+                                <p>
+                                    <cite>{{ user_nums }}</cite></p>
+                            </a>
+                        </li>
+
+                        <li class="layui-col-md1 layui-col-xs6 ">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>分类数</h3>
+                                <p>
+                                    <cite>{{ category_nums }}</cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md1 layui-col-xs6 ">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>标签数</h3>
+                                <p>
+                                    <cite>{{ tags_nums }}</cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md1 layui-col-xs6">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>评论数</h3>
+                                <p>
+                                    <cite>{{ comment_nums }}</cite></p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 图  -->
+        <div class="layui-col-md12 layui-col-space15">
+            <div class="layui-col-sm12 layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">最近半年创作</div>
+                    <div class="layui-card-body" style="min-height: 280px;">
+                        <div id="half-year" class="layui-col-sm12" style="height: 300px;"></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm12 layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">最新一周创作</div>
+                    <div class="layui-card-body" style="min-height: 280px;">
+                        <div id="seven-day" class="layui-col-sm12" style="height: 300px;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 系统信息
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">系统信息</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table">
+                        <tbody>
+                        <tr>
+                            <th>xxx版本</th>
+                            <td>1.0.180420</td>
+                        </tr>
+                        <tr>
+                            <th>服务器地址</th>
+                            <td>x.xuebingsi.com</td>
+                        </tr>
+                        <tr>
+                            <th>操作系统</th>
+                            <td>WINNT</td>
+                        </tr>
+                        <tr>
+                            <th>运行环境</th>
+                            <td>Apache/2.4.23 (Win32) OpenSSL/1.0.2j mod_fcgid/2.3.9</td>
+                        </tr>
+                        <tr>
+                            <th>PHP版本</th>
+                            <td>5.6.27</td>
+                        </tr>
+                        <tr>
+                            <th>PHP运行方式</th>
+                            <td>cgi-fcgi</td>
+                        </tr>
+                        <tr>
+                            <th>MYSQL版本</th>
+                            <td>5.5.53</td>
+                        </tr>
+                        <tr>
+                            <th>ThinkPHP</th>
+                            <td>5.0.18</td>
+                        </tr>
+                        <tr>
+                            <th>上传附件限制</th>
+                            <td>2M</td>
+                        </tr>
+                        <tr>
+                            <th>执行时间限制</th>
+                            <td>30s</td>
+                        </tr>
+                        <tr>
+                            <th>剩余空间</th>
+                            <td>86015.2M</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> -->
+        <!-- 开发
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">开发团队</div>
+                <div class="layui-card-body ">
+                    <table class="layui-table">
+                        <tbody>
+                        <tr>
+                            <th>版权所有</th>
+                            <td>xuebingsi(xuebingsi)
+                                <a href="http://x.xuebingsi.com/" target="_blank">访问官网</a></td>
+                        </tr>
+                        <tr>
+                            <th>开发者</th>
+                            <td>马志斌(113664000@qq.com)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>-->
+        <style id="welcome_style"></style>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+<script type="text/javascript">
+    layui.use('jquery', function () {
+        var $ = layui.$;
+        // 当前时间
+        $(".nowtime").text(getTime());
+        setInterval(function () {
+            $(".nowtime").text(getTime());
+        }, 1000);
+
+        function getTime() {
+            let localToday = "";
+            let d = new Date();
+            localToday = d.getFullYear() + "年" + (d.getMonth() + 1) + "月" + d.getDate() + "日";
+            let time = "";
+            let hh = d.getHours(); //时
+            let mm = d.getMinutes(); //分
+            let ss = d.getSeconds(); //秒
+            if (hh < 10) time += "0";
+            time += hh + ":";
+            if (mm < 10) time += "0";
+            time += mm + ":";
+            if (ss < 10) time += "0";
+            time += ss;
+            return localToday + ' ' + time
+        }
+
+        // 基于准备好的dom，初始化echarts实例
+        var halfYear = echarts.init(document.getElementById('half-year'));
+        var half_year_option = {
+            grid: {
+                top: '5%',
+                right: '1%',
+                left: '1%',
+                bottom: '10%',
+                containLabel: true
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: []
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '用户量',
+                data: [],
+                type: 'line',
+                smooth: true
+            }]
+        };
+        var sevenDay = echarts.init(document.getElementById('seven-day'));
+        // 指定图表的配置项和数据
+        var seven_day_option = {
+            grid: {
+                top: '5%',
+                right: '1%',
+                left: '1%',
+                bottom: '10%',
+                containLabel: true
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                type: 'category',
+                data: []
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '用户量',
+                data: [],
+                type: 'line',
+                smooth: true
+            }]
+        };
+        $.ajax({
+            method: 'get',
+            url: '/v1/api/home/data/',
+            success: function (res) {
+                // 使用刚指定的配置项和数据显示图表。
+                half_year_option.xAxis.data = res.data.half_year_data[0]
+                half_year_option.series[0].data = res.data.half_year_data[1]
+
+                seven_day_option.xAxis.data = res.data.seven_day_data[0]
+                seven_day_option.series[0].data = res.data.seven_day_data[1]
+                halfYear.setOption(half_year_option);
+                sevenDay.setOption(seven_day_option);
+            }
+        })
+    })
+</script>
+</body>
+</html>

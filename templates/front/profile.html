@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        /*profile*/
+        .card .card-info {
+            position: relative;
+            overflow: hidden;
+            margin: 30px 15px;
+            border-radius: 6px;
+            box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .card .card-caption {
+            position: absolute;
+            bottom: 15px;
+            font-weight: 700;
+            left: 15px;
+            font-size: 1.3rem;
+            text-shadow: 0 2px 5px rgba(33, 33, 33, 0.5);
+        }
+
+        .main-wrapper .list-group-flush>.list-group-item:last-child {
+            border-bottom-width: 1px !important;
+        }
+
+        .main-wrapper .img-thumbnail {
+            width: 100%;
+        }
+
+        .avatar-list {
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .avatar-list .list-group-item {
+            width: 12%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- 导航 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="" height="60px"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="nav navbar-nav nav-tabs" data-in="fadeInLeft" data-out="fadeInOut" id="aa">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">首页</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../404.html#">404</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="detail.html">详情</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tags.html">tags</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="archive.html">归档</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="modal" data-target="#searchModalCenter">搜索</a>
+                    </li>
+                    <!-- 秘密花园是登录后的状态 -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            秘密花园
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="profile.html">个人信息</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">后台</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">退出</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="modal" data-target="#register" href=""><span
+                                class="glyphicon glyphicon-user"></span> 注册</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="modal" data-target="#login" href=""><span
+                                class="glyphicon glyphicon-log-in"></span> 登录</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                    <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- 内容-->
+    <div class="container clearfix">
+        <div class="row">
+            <!-- item -->
+            <div class="main-wrapper col-md-12">
+                <ul class="nav nav-tabs" id="profile-nav" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" href="#profile" role="tab" aria-controls="profile"
+                            aria-selected="true">个人信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="account-tab" href="#account" role="tab" aria-controls="account"
+                            aria-selected="false">账号</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="avatar-tab" href="#avatar" role="tab" aria-controls="avatar"
+                            aria-selected="false">头像</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="card text-center">
+                            <div class="card-info">
+                                <img class="img" src="img/avatar.jpg" style="width: 200px;">
+                                <div class="card-caption">月黑风高夜</div>
+                            </div>
+                            <div class="table">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="col-md-6 offset-md-3">
+                                    <form action="" class="form-group">
+                                        <div class="form-group">
+                                            <label for="">用户名</label>
+                                            <input class="form-control" type="text" placeholder="6-15位字母或数字">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">密码</label>
+                                            <input class="form-control" type="text" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">邮箱</label>
+                                            <input class="form-control" type="email" placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-sm btn-block">修改</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="avatar" role="tabpanel" aria-labelledby="avatar-tab">
+                        <div class="card">
+                            <div class="card-body">
+                                <ul class="avatar-list list-group  list-group-flush">
+                                    <li class="list-group-item active">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="./img/avatar.jpg" alt="..." class="img-thumbnail">
+                                    </li>
+                                </ul>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block">选择头像，点击按钮进行更换</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 注册窗口 -->
+    <div id="register" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-center">注册</h3>
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">用户名</label>
+                        <input class="form-control" type="text" placeholder="6-15位字母或数字">
+                    </div>
+                    <div class="form-group">
+                        <label for="">密码</label>
+                        <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                    </div>
+                    <div class="form-group">
+                        <label for="">再次输入密码</label>
+                        <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                    </div>
+                    <div class="form-group">
+                        <label for="">邮箱</label>
+                        <input class="form-control" type="email" placeholder="例如:123@123.com">
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit">注册</button>
+                        <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                    </div>
+                    <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 登录窗口 -->
+    <div id="login" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="text-center">登录</h3>
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">用户名</label>
+                        <input class="form-control" type="text" placeholder="请输入您的用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="">密码</label>
+                        <input class="form-control" type="password" placeholder="请输入您的密码">
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="submit">登录</button>
+                        <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                    </div>
+                    <a href="" data-toggle="modal" data-dismiss="modal" data-target="#register">还没有账号？点我注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Search -->
+    <div class="modal fade" id="searchModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">文章搜索</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 底部 -->
+    <div class="footer">
+        <div class="alert alert-dark text-center " role="alert" style="margin-bottom: 0;">
+            <p>CopyRight &copy; 2018 ~ 2020 月黑风高夜的个人网站</p>
+            <p>Powered by Django & Bootstrap 备案xxxxxxx</p>
+        </div>
+    </div>
+    <div class="toolbar">
+        <a class="back-to-top"><i class="fa fa-angle-up fa-2x"></i></a>
+        <a data-toggle="modal" data-target="#searchModalCenter"><i class="fa fa-search fa-2x"></i></a>
+        <a class="back-to-home" href="./index.html"><i class="fa fa-home fa-2x"></i></a>
+    </div>
+</body>
+<script src="./js/common.js"></script>
+<script>
+    // 头像选择
+    $('.avatar-list .list-group-item').click(function () {
+        $(this).addClass('active').siblings().removeClass('active')
+        // ajax
+    })
+    // hash 当前tab   
+    // window.location.hash    #后面的
+    var hash = window.location.hash ? window.location.hash : '#profile'
+    var currentTab = $('a[href="' + hash + '"]')
+    currentTab.tab('show')
+    $('#profile-nav a').click(function (e) {
+        $(this).tab('show')
+    })
+
+</script>
+
+</html>

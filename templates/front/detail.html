@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>详情页</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'front/css/common.css' %}">
+
+    <!-- 编辑器  -->
+    <link rel="stylesheet" href="{% static 'front/editor.md/css/editormd.min.css' %}">
+    <script src="{% static 'front/editor.md/lib/marked.min.js' %}"></script>
+    <script src="{% static 'front/editor.md/lib/prettify.min.js' %}"></script>
+    <script src="{% static 'front/editor.md/editormd.min.js' %}"></script>
+
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <style>
+        /* post */
+        .main-wrapper .card-desc {
+            background-color: #e0e0e0;
+            padding: 6px 0;
+            margin-top: 10px;
+            color: #696969;
+        }
+
+        .main-wrapper .card-desc:before {
+            content: "描述";
+            display: inline-block;
+            width: 50px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #dc3545;
+        }
+
+        .main-wrapper .card-content img {
+            max-width: 100%;
+        }
+
+        .card-comments textarea {
+            height: 180px;
+            resize: none;
+        }
+
+        .card-comments img {
+            width: 64px;
+        }
+
+
+        .more-post {
+            position: fixed;
+            top: 30%;
+            width: 48px;
+            height: 48px;
+            line-height: 48px;
+            text-align: center;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .more-post.post-prev {
+            left: 10%;
+        }
+
+        .more-post.post-next {
+            right: 10%;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 导航 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="top">
+    <div class="container">
+        <a class="navbar-brand" href="#"><img src="{% static 'front/img/logo.png' %}" alt="" height="60px"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="nav navbar-nav nav-tabs" data-in="fadeInLeft" data-out="fadeInOut" id="aa">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:index' %}">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/404.html">404</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:tags' %}">标签</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:category' %}">分类</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'front:archive' %}">归档</a>
+                </li>
+                <!-- 秘密花园是登录后的状态
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        秘密花园
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="profile.html">个人信息</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">后台</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">退出</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#register" href=""><span
+                            class="glyphicon glyphicon-user"></span> 注册</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" data-target="#login" href=""><span
+                            class="glyphicon glyphicon-log-in"></span> 登录</a>
+                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- 内容 sticky-sidebar-->
+<div class="container clearfix">
+    <div class="row">
+        <!-- item -->
+        <div class="main-wrapper col-md-10 offset-md-1">
+            <div class="card post">
+                <img src="{% static 'front/img/thumbnail.png' %}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h2 class="card-title" style="font-weight: 700;">{{ post.ptitle }}</h2>
+                    <ul class="list-group list-group-horizontal-sm card-info">
+                        <li class="list-group-item">{{ post.puser.username }}</li>
+                        <li class="list-group-item"><a href="{% url "front:category" %}?cid={{ post.pcategory.id }}">{{ post.pcategory.cname }}</a></li>
+                        <li class="list-group-item">{{ post.update_time }}</li>
+                        {% if tags %}
+                            <li class="list-group-item">
+                                {% for tag in tags %}
+                                    <span class="badge badge-dark">{{ tag.tname }}</span>
+                                {% endfor %}
+                            </li>
+                        {% endif %}
+                    </ul>
+                    <p class="card-desc">{{ post.pdesc }}</p>
+                    <div class="card-content content-container" id="content-container">
+                        <textarea id="md-content" style="display: none">{{ post.pcontent }}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 评论
+            <div class="card-comments">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>文章评论</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <textarea name="" class="form-control" placeholder="留下您的足迹~~"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="getHtml"
+                                    class="btn btn-primary btn-sm float-right">留下足迹
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="media">
+                            <img src="{% static 'front/img/avatar.jpg' %}" class="mr-3" width="64px" alt="...">
+                            <div class="media-body">
+                                <h5 class="mt-0">月黑风高夜</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                                Fusce
+                                condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
+                                faucibus.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="media">
+                            <img src="{% static 'front/img/avatar.jpg' %}" class="mr-3" width="64px" alt="...">
+                            <div class="media-body">
+                                <h5 class="mt-0">月黑风高夜</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
+                                sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.
+                                Fusce
+                                condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in
+                                faucibus.
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- 底部 -->
+<div class="footer">
+    <div class="alert alert-dark text-center " role="alert" style="margin-bottom: 0;">
+        <p>CopyRight &copy; 2018 ~ 2020 月黑风高夜的个人网站</p>
+        <p>Powered by Django & Bootstrap 备案xxxxxxx</p>
+    </div>
+</div>
+
+
+<!-- 注册窗口 -->
+<div id="register" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center">注册</h3>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">用户名</label>
+                    <input class="form-control" type="text" placeholder="6-15位字母或数字">
+                </div>
+                <div class="form-group">
+                    <label for="">密码</label>
+                    <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                </div>
+                <div class="form-group">
+                    <label for="">再次输入密码</label>
+                    <input class="form-control" type="password" placeholder="至少6位字母或数字">
+                </div>
+                <div class="form-group">
+                    <label for="">邮箱</label>
+                    <input class="form-control" type="email" placeholder="例如:123@123.com">
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">注册</button>
+                    <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                </div>
+                <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 登录窗口 -->
+<div id="login" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-center">登录</h3>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="">用户名</label>
+                    <input class="form-control" type="text" placeholder="请输入您的用户名">
+                </div>
+                <div class="form-group">
+                    <label for="">密码</label>
+                    <input class="form-control" type="password" placeholder="请输入您的密码">
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="submit">登录</button>
+                    <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                </div>
+                <a href="" data-toggle="modal" data-dismiss="modal" data-target="#register">还没有账号？点我注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search -->
+<div class="modal fade" id="searchModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">文章搜索</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{% url "front:search" %}" class="form-group">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" name="s" class="form-control" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% if pre_post %}
+<a href="{% url 'front:detail' pid=pre_post.pid %}" class="more-post post-prev"> <i class="fa fa-angle-left fa-3x"></i> </a>
+{% endif %}
+{% if next_post %}
+<a href="{% url 'front:detail' pid=next_post.pid %}" class="more-post post-next"> <i class="fa fa-angle-right fa-3x"></i> </a>
+{% endif %}
+
+<div class="toolbar">
+    <a class="back-to-top"><i class="fa fa-angle-up fa-2x"></i></a>
+    <a data-toggle="modal" data-target="#searchModalCenter"><i class="fa fa-search fa-2x"></i></a>
+    <a class="back-to-home" href="{% url 'front:index' %}"><i class="fa fa-home fa-2x"></i></a>
+</div>
+</body>
+<script src="{% static 'front/js/common.js' %}"></script>
+<script>
+    editormd.markdownToHTML("content-container", {
+        markdown: $("#md-content").text(),
+        htmlDecode: "style,script,iframe",  // you can filter tags decode
+        tocm: true,    // Using [TOCM]
+        emoji: true,
+        taskList: true,
+    });
+</script>
+</html>

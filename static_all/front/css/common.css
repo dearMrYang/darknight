@@ -1,0 +1,56 @@
+body {
+    background-color: #ececec;
+}
+
+.container {
+    margin-top: 10px;
+}
+
+.tags-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card .title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.card .desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* 将对象作为弹性伸缩盒子模型显示 */
+    -webkit-line-clamp: 3;
+    /* 控制最多显示几行 */
+    -webkit-box-orient: vertical;
+    /* 设置或检索伸缩盒对象的子元素的排列方式 */
+}
+
+.toolbar {
+    position: fixed;
+    right: 100px;
+    bottom: 200px;
+    text-align: center;
+    background-color: #0005;
+    border-radius: 10px;
+}
+.toolbar a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+.toolbar a.back-to-top {
+    display: none;
+}
+.toolbar a:last-of-type {
+    border: none;
+}
+
+.footer {
+    margin-top: 10px;
+}
